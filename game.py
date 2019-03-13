@@ -7,7 +7,7 @@ from os import path
 
 WIDTH = 500
 HEIGHT = 500
-FPS = 60
+FPS = 50
 
 
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
-        self.image = self.standing_frames[0]
+        self.image = self.standing_frames[6]
         self.rect = self.image.get_rect()
         self.radius = 7
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
@@ -102,9 +102,9 @@ class Player(pygame.sprite.Sprite):
         self.x_speed = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
-            self.x_speed = -8
+            self.x_speed = -5
         if keystate[pygame.K_RIGHT]:
-            self.x_speed = 8
+            self.x_speed = 5
         self.rect.x += self.x_speed
         if self.rect.right > WIDTH:
 
@@ -112,6 +112,8 @@ class Player(pygame.sprite.Sprite):
 
         if self.rect.left < 0:
             self.rect.left = 0
+        if abs(self.x_speed) < .01:
+            self.x_speed = 0
 
     def shoot(self):
         bullet = Bullet(self.rect.centerx, self.rect.top)
@@ -126,7 +128,7 @@ class Player(pygame.sprite.Sprite):
             self.walking = False
 
         if self.walking:
-            if now - self.last_update > 250:
+            if now - self.last_update > 150:
                 self.last_update = now
                 self.current_frame = (
                     self.current_frame + 1) % len(self.walking_frames_r)
@@ -136,7 +138,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.walking_frames_l[self.current_frame]
 
         if not self.walking:
-            if now - self.last_update > 250:
+            if now - self.last_update > 230:
                 self.last_update = now
                 self.current_frame = (
                     self.current_frame + 1) % len(self.standing_frames)
@@ -251,7 +253,7 @@ while running:
     # update
     all_sprites.update()
 
-    if player.rect.right >= 498 and player.rect.right <= 499:
+    if player.rect.right >= 498 and player.rect.right <= 500:
         score += 1
         for i in range(1):
             rock = Rocks()
