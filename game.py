@@ -204,7 +204,7 @@ def show_game_over_screen():
               20, WIDTH / 2, HEIGHT / 1.65)
     draw_text(screen, " FOREVER DEAD?!",
               28, WIDTH / 2, HEIGHT / 1.5)
-    draw_text(screen, "Press any key to begin your journey to impending doom", 18,
+    draw_text(screen, "Press the space bar to begin your journey to impending doom", 18,
               WIDTH / 2, HEIGHT * 3 / 4)
     pygame.display.flip()
     waiting = True
@@ -214,16 +214,14 @@ def show_game_over_screen():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYUP:
-                waiting = False
+                if event.key == pygame.K_SPACE:
+                    waiting = False
 
             # load all graphics
 background = pygame.image.load(
     path.join(img_dir, 'grassy_plains.jpg')).convert()
 background_rect = background.get_rect()
 
-
-player_image = pygame.image.load(
-    os.path.join(img_dir, 'walk_right0000.png')).convert()
 boulder_image = pygame.image.load(
     os.path.join(img_dir, 'boulder.png')).convert()
 
@@ -253,7 +251,7 @@ while running:
     # update
     all_sprites.update()
 
-    if player.rect.right >= 498 and player.rect.right <= 500:
+    if player.rect.right >= abs(498) and player.rect.right <= abs(500):
         score += 1
         for i in range(1):
             rock = Rocks()
