@@ -86,9 +86,6 @@ class Rocks(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.y_speed = random.randrange(1, 8)
         self.x_speed = random.randrange(-3, 3)
-        self.rot = 0
-        self.rot_speed = random.randrange(-8, 8)
-        self.last_update = pygame.time.get_ticks()
 
     def update(self):
 
