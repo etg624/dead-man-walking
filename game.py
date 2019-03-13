@@ -37,19 +37,25 @@ def draw_text(surface, text, size, x, y):
     surface.blit(text_surface, text_rect)
 
 
+def image_parser(file_name):
+    image = pygame.image.load(
+        os.path.join(img_dir, file_name)).convert()
+    return image
+
+
 class Player(pygame.sprite.Sprite):
-    # sprite for the player
+        # sprite for the player
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = player_image
         self.walking = False
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
+        self.image = self.standing_frames[0]
         self.rect = self.image.get_rect()
         self.radius = 7
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
-        self.image.set_colorkey(WHITE)
+
         self.rect.centerx = (WIDTH / 2)
         self.rect.left = 0
 
@@ -58,17 +64,41 @@ class Player(pygame.sprite.Sprite):
 
     def load_images(self):
 
-        self.standing_img = ['idle_left0000', 'idle_left0001', 'idle_left0002',
-                             'idle_left0003', 'idle_left0004', 'idle_left0005',
-                             'idle_left0006', 'idle_left0007', 'idle_left0008',
-                             'idle_left0009', 'idle_left0010']
-        self.walking_frames = ['walk_right0000', 'walk_right0001',
-                               'walk_right0002', 'walk_right0003',
-                               'walk_right0004', 'walk_right0006',
-                               'walk_right0007', ]
+        self.standing_frames = [
+            image_parser('idle_left0000.png'),
+            image_parser('idle_left0001.png'),
+            image_parser('idle_left0002.png'),
+            image_parser('idle_left0003.png'),
+            image_parser('idle_left0004.png'),
+            image_parser('idle_left0005.png'),
+            image_parser('idle_left0006.png'),
+            image_parser('idle_left0007.png'),
+            image_parser('idle_left0008.png'),
+            image_parser('idle_left0009.png'),
+            image_parser('idle_left0010.png')
+        ]
+
+        for frame in self.standing_frames:
+            frame.set_colorkey(WHITE)
+
+        self.walking_frames_r = [
+            image_parser('walk_right0000.png'),
+            image_parser('walk_right0001.png'),
+            image_parser('walk_right0002.png'),
+            image_parser('walk_right0003.png'),
+            image_parser('walk_right0004.png'),
+            image_parser('walk_right0006.png'),
+            image_parser('walk_right0007.png')
+        ]
+
+        self.walking_frames_l = []
+        for frame in self.walking_frames_r:
+            frame.set_colorkey(WHITE)
+            self.walking_frames_l.append(
+                pygame.transform.flip(frame, True, False))
 
     def update(self):
-
+        self.animate()
         self.x_speed = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
@@ -87,6 +117,30 @@ class Player(pygame.sprite.Sprite):
         bullet = Bullet(self.rect.centerx, self.rect.top)
         all_sprites.add(bullet)
         bullets.add(bullet)
+
+    def animate(self):
+        now = pygame.time.get_ticks()
+        if self.x_speed != 0:
+            self.walking = True
+        else:
+            self.walking = False
+
+        if self.walking:
+            if now - self.last_update > 250:
+                self.last_update = now
+                self.current_frame = (
+                    self.current_frame + 1) % len(self.walking_frames_r)
+                if self.x_speed > 0:
+                    self.image = self.walking_frames_r[self.current_frame]
+                else:
+                    self.image = self.walking_frames_l[self.current_frame]
+
+        if not self.walking:
+            if now - self.last_update > 250:
+                self.last_update = now
+                self.current_frame = (
+                    self.current_frame + 1) % len(self.standing_frames)
+                self.image = self.standing_frames[self.current_frame]
 
 
 class Rocks(pygame.sprite.Sprite):
@@ -186,7 +240,7 @@ while running:
 
         all_sprites.add(player)
         clock.tick(FPS)
-   # Process events or input
+    # Process events or input
     for event in pygame.event.get():
         # check for closing window
         if event.type == pygame.QUIT:
