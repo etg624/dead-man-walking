@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = player_image
         self.rect = self.image.get_rect()
-        self.radius = 6
+        self.radius = 7
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.image.set_colorkey(WHITE)
         self.rect.centerx = (WIDTH / 2)
