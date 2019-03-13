@@ -1,1 +1,1 @@
-ToDo tomorrow: Animate player walking
+Todo tomorrow: Animate player walking
