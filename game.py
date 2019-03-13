@@ -251,7 +251,7 @@ while running:
     # update
     all_sprites.update()
 
-    if player.rect.right >= abs(498) and player.rect.right <= abs(500):
+    if player.rect.right >= abs(499) and player.rect.right <= abs(500):
         score += 1
         for i in range(1):
             rock = Rocks()
