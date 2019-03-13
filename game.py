@@ -9,6 +9,7 @@ WIDTH = 500
 HEIGHT = 500
 FPS = 60
 
+
 img_dir = path.join(path.dirname(__file__), 'img')
 
 # define colors
@@ -41,6 +42,10 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = player_image
+        self.walking = False
+        self.current_frame = 0
+        self.last_update = 0
+        self.load_images()
         self.rect = self.image.get_rect()
         self.radius = 7
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
@@ -50,6 +55,17 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.bottom = HEIGHT - 10
         self.x_speed = 0
+
+    def load_images(self):
+
+        self.standing_img = ['idle_left0000', 'idle_left0001', 'idle_left0002',
+                             'idle_left0003', 'idle_left0004', 'idle_left0005',
+                             'idle_left0006', 'idle_left0007', 'idle_left0008',
+                             'idle_left0009', 'idle_left0010']
+        self.walking_frames = ['walk_right0000', 'walk_right0001',
+                               'walk_right0002', 'walk_right0003',
+                               'walk_right0004', 'walk_right0006',
+                               'walk_right0007', ]
 
     def update(self):
 
@@ -148,6 +164,8 @@ def show_game_over_screen():
 background = pygame.image.load(
     path.join(img_dir, 'grassy_plains.jpg')).convert()
 background_rect = background.get_rect()
+
+
 player_image = pygame.image.load(
     os.path.join(img_dir, 'walk_right0000.png')).convert()
 boulder_image = pygame.image.load(
