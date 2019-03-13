@@ -73,7 +73,7 @@ class Player(pygame.sprite.Sprite):
         bullets.add(bullet)
 
 
-class Mob(pygame.sprite.Sprite):
+class Rocks(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -165,7 +165,7 @@ while running:
         show_game_over_screen()
         game_over = False
         all_sprites = pygame.sprite.Group()
-        mobs = pygame.sprite.Group()
+        rocks = pygame.sprite.Group()
         bullets = pygame.sprite.Group()
         player = Player()
 
@@ -185,22 +185,22 @@ while running:
     if player.rect.right >= 498 and player.rect.right <= 499:
         score += 1
         for i in range(1):
-            m = Mob()
-            all_sprites.add(m)
-            mobs.add(m)
+            rock = Rocks()
+            all_sprites.add(rock)
+            rocks.add(rock)
 
         # draw_text(screen, str(score), 18, WIDTH / 2, 10)
 
     # check if player hit mob
-    hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+    hits = pygame.sprite.groupcollide(rocks, bullets, True, True)
     for hit in hits:
-        m = Mob()
-        all_sprites.add(m)
-        mobs.add(m)
+        rock = Rocks()
+        all_sprites.add(rock)
+        rocks.add(rock)
 
     # check to see if a mob hit the player
     hits = pygame.sprite.spritecollide(
-        player, mobs, False, pygame.sprite.collide_circle)
+        player, rocks, False, pygame.sprite.collide_circle)
     if hits:
         game_over = True
 
