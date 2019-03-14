@@ -4,6 +4,7 @@ import pygame
 import random
 import os
 from os import path
+import sys
 
 WIDTH = 500
 HEIGHT = 500
@@ -155,8 +156,8 @@ class Rocks(pygame.sprite.Sprite):
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.image.set_colorkey(BLACK)
         self.rect.x = random.randrange(WIDTH - self.rect.width)
-        self.rect.y = random.randrange(-100, -40)
-        self.y_speed = random.randrange(1, 8)
+        self.rect.y = random.randrange(-150, -40)
+        self.y_speed = random.randrange(1, 10)
         self.x_speed = random.randrange(-3, 3)
 
     def update(self):
@@ -213,9 +214,11 @@ def show_game_over_screen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     waiting = False
+
 
             # load all graphics
 background = pygame.image.load(
@@ -225,10 +228,10 @@ background_rect = background.get_rect()
 boulder_image = pygame.image.load(
     os.path.join(img_dir, 'boulder.png')).convert()
 
-
 game_over = True
 running = True
 while running:
+
     if game_over:
         score = 0
         show_game_over_screen()
@@ -237,9 +240,9 @@ while running:
         rocks = pygame.sprite.Group()
         bullets = pygame.sprite.Group()
         player = Player()
-
         all_sprites.add(player)
         clock.tick(FPS)
+
     # Process events or input
     for event in pygame.event.get():
         # check for closing window
@@ -248,6 +251,7 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 player.shoot()
+
     # update
     all_sprites.update()
 
