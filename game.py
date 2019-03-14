@@ -4,6 +4,7 @@
 import pygame
 import random
 import os
+import time
 from os import path
 import sys
 
@@ -33,7 +34,7 @@ sound_dir = path.join(path.dirname(__file__), 'sounds')
 # load sounds
 pygame.mixer.music.load(path.join(sound_dir, 'background.ogg'))
 walk_sound = pygame.mixer.Sound(path.join(sound_dir, 'walk.ogg'))
-walk_sound.set_volume(0.1)
+walk_sound.set_volume(0.08)
 
 
 font_name = pygame.font.match_font('arial')
@@ -58,6 +59,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.walking = False
+        self.dead = False
         self.current_frame = 0
         self.last_update = 0
         self.load_images()
@@ -132,6 +134,9 @@ class Player(pygame.sprite.Sprite):
         all_sprites.add(bullet)
         bullets.add(bullet)
 
+    def set_dead(self):
+        self.dead = True
+
     def animate(self):
         now = pygame.time.get_ticks()
         if self.x_speed != 0:
@@ -162,6 +167,41 @@ class Player(pygame.sprite.Sprite):
                 self.current_frame = (
                     self.current_frame + 1) % len(self.standing_frames)
                 self.image = self.standing_frames[self.current_frame]
+
+
+class Death(pygame.sprite.Sprite):
+    def __init__(self, center):
+        pygame.sprite.Sprite.__init__(self)
+        self.load_images()
+        self.image = self.dying_frames[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.current_frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 100
+
+    def load_images(self):
+        self.dying_frames = [
+            image_parser('die_right0000.png'),
+            image_parser('die_right0001.png'),
+            image_parser('die_right0002.png'),
+            image_parser('die_right0003.png'),
+            image_parser('die_right0004.png'),
+            image_parser('die_right0006.png')
+        ]
+        for frame in self.dying_frames:
+            frame.set_colorkey(WHITE)
+
+    def update(self):
+        now = pygame.time.get_ticks()
+
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.current_frame = (self.current_frame +
+                                  1) % len(self.dying_frames)
+            self.image = self.dying_frames[self.current_frame]
+            if self.current_frame == len(self.dying_frames) - 1:
+                self.kill()
 
 
 class Rocks(pygame.sprite.Sprite):
@@ -235,7 +275,6 @@ def show_game_over_screen():
                 if event.key == pygame.K_SPACE:
                     waiting = False
 
-
             # load all graphics
 background = pygame.image.load(
     path.join(img_dir, 'grassy_plains.jpg')).convert()
@@ -292,12 +331,16 @@ while running:
 
     # check to see if a mob hit the player
     hits = pygame.sprite.spritecollide(
-        player, rocks, False, pygame.sprite.collide_circle)
+        player, rocks, True, pygame.sprite.collide_circle)
     if hits:
+        death = Death(player.rect.center)
+        all_sprites.add(death)
+        player.kill()
 
+    if not player.alive() and not death.alive():
         game_over = True
 
-    # draw / render
+        # draw / render
     screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
