@@ -1,5 +1,6 @@
 # pygame template for new pygame proj
 # sprite URL https://i.stack.imgur.com/C3ZwL.png
+# Attribution to t4ngr4m
 import pygame
 import random
 import os
@@ -30,7 +31,10 @@ clock = pygame.time.Clock()
 
 sound_dir = path.join(path.dirname(__file__), 'sounds')
 # load sounds
+pygame.mixer.music.load(path.join(sound_dir, 'background.ogg'))
 walk_sound = pygame.mixer.Sound(path.join(sound_dir, 'walk.ogg'))
+walk_sound.set_volume(0.1)
+
 
 font_name = pygame.font.match_font('arial')
 
@@ -59,7 +63,7 @@ class Player(pygame.sprite.Sprite):
         self.load_images()
         self.image = self.standing_frames[6]
         self.rect = self.image.get_rect()
-        self.radius = 7
+        self.radius = 8
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
 
         self.rect.centerx = (WIDTH / 2)
@@ -109,8 +113,10 @@ class Player(pygame.sprite.Sprite):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
             self.x_speed = -5
+            walk_sound.play()
         if keystate[pygame.K_RIGHT]:
             self.x_speed = 5
+            walk_sound.play()
         self.rect.x += self.x_speed
         if self.rect.right > WIDTH:
 
@@ -129,9 +135,8 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         now = pygame.time.get_ticks()
         if self.x_speed != 0:
+
             self.walking = True
-            walk_sound.set_volume(0.009)
-            walk_sound.play()
 
         else:
             self.walking = False
@@ -139,7 +144,9 @@ class Player(pygame.sprite.Sprite):
         if self.walking:
 
             if now - self.last_update > 150:
+
                 self.last_update = now
+
                 self.current_frame = (
                     self.current_frame + 1) % len(self.walking_frames_r)
 
@@ -149,6 +156,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.walking_frames_l[self.current_frame]
 
         if not self.walking:
+            walk_sound.stop()
             if now - self.last_update > 230:
                 self.last_update = now
                 self.current_frame = (
@@ -239,6 +247,7 @@ boulder_image = pygame.image.load(
 
 game_over = True
 running = True
+pygame.mixer.music.play(loops=-1)
 while running:
 
     if game_over:
@@ -285,6 +294,7 @@ while running:
     hits = pygame.sprite.spritecollide(
         player, rocks, False, pygame.sprite.collide_circle)
     if hits:
+
         game_over = True
 
     # draw / render
