@@ -13,6 +13,7 @@ FPS = 50
 
 img_dir = path.join(path.dirname(__file__), 'img')
 
+
 # define colors
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
@@ -26,6 +27,10 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dead Man Walking")
 clock = pygame.time.Clock()
+
+sound_dir = path.join(path.dirname(__file__), 'sounds')
+# load sounds
+walk_sound = pygame.mixer.Sound(path.join(sound_dir, 'walk.ogg'))
 
 font_name = pygame.font.match_font('arial')
 
@@ -125,14 +130,19 @@ class Player(pygame.sprite.Sprite):
         now = pygame.time.get_ticks()
         if self.x_speed != 0:
             self.walking = True
+            walk_sound.set_volume(0.009)
+            walk_sound.play()
+
         else:
             self.walking = False
 
         if self.walking:
+
             if now - self.last_update > 150:
                 self.last_update = now
                 self.current_frame = (
                     self.current_frame + 1) % len(self.walking_frames_r)
+
                 if self.x_speed > 0:
                     self.image = self.walking_frames_r[self.current_frame]
                 else:
@@ -169,8 +179,6 @@ class Rocks(pygame.sprite.Sprite):
             self.rect.x = random.randrange(WIDTH)
             self.rect.y = random.randrange(-100, -40)
             self.y_speed = random.randrange(1, 8)
-
-        # start game and create window
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -228,6 +236,7 @@ background_rect = background.get_rect()
 boulder_image = pygame.image.load(
     os.path.join(img_dir, 'boulder.png')).convert()
 
+
 game_over = True
 running = True
 while running:
@@ -244,6 +253,7 @@ while running:
         clock.tick(FPS)
 
     # Process events or input
+
     for event in pygame.event.get():
         # check for closing window
         if event.type == pygame.QUIT:
