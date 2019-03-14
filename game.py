@@ -66,7 +66,7 @@ class Player(pygame.sprite.Sprite):
         self.load_images()
         self.image = self.standing_frames[6]
         self.rect = self.image.get_rect()
-        self.radius = 8
+        self.radius = 10
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
 
         self.rect.centerx = (WIDTH / 2)
@@ -334,12 +334,14 @@ while running:
     hits = pygame.sprite.spritecollide(
         player, rocks, True, pygame.sprite.collide_circle)
     if hits:
-        die_sound.play()
         death = Death(player.rect.center)
+        walk_sound.stop()
         all_sprites.add(death)
+        die_sound.play()
         player.kill()
 
     if not player.alive() and not death.alive():
+
         game_over = True
 
         # draw / render
