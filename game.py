@@ -33,6 +33,7 @@ clock = pygame.time.Clock()
 sound_dir = path.join(path.dirname(__file__), 'sounds')
 # load sounds
 pygame.mixer.music.load(path.join(sound_dir, 'background.ogg'))
+die_sound = pygame.mixer.Sound(path.join(sound_dir, 'hit3.ogg'))
 walk_sound = pygame.mixer.Sound(path.join(sound_dir, 'walk.ogg'))
 walk_sound.set_volume(0.08)
 
@@ -333,6 +334,7 @@ while running:
     hits = pygame.sprite.spritecollide(
         player, rocks, True, pygame.sprite.collide_circle)
     if hits:
+        die_sound.play()
         death = Death(player.rect.center)
         all_sprites.add(death)
         player.kill()
