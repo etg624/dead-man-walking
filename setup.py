@@ -20,7 +20,7 @@ options = {
                           'img/idle_left0007.png',
                           'img/idle_left0008.png',
                           'img/idle_left0009.png',
-                          'img/idle_left00010.png',
+                          'img/idle_left0010.png',
                           'img/walk_right0000.png',
                           'img/walk_right0001.png',
                           'img/walk_right0002.png',
