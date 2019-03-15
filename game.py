@@ -9,8 +9,8 @@ from os import path
 import sys
 
 
-WIDTH = 600
-HEIGHT = 600
+WIDTH = 500
+HEIGHT = 500
 FPS = 50
 HS_FILE = 'highscore.txt'
 
@@ -271,7 +271,7 @@ def show_game_over_screen():
     draw_text(screen, " FOREVER DEAD?!",
               22, WIDTH / 2, HEIGHT / 1.5)
     draw_text(screen, "Current Highscore: {}".format(highscore),
-              10, WIDTH / 2, 10)
+              15, WIDTH / 2, 10)
     draw_text(screen, "Press the space bar to begin your journey to impending doom", 18,
               WIDTH / 2, HEIGHT * 3 / 4)
     pygame.display.flip()
