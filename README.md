@@ -20,10 +20,11 @@ Unfortunately PYGAME isn't very good at distrbution. Even creating an exe file i
 - Also there is an issue where the *FPS* and the *font size* changes on different machines. 
 - `FPS` can be found at the top of the game.py file and you can adjust accordingly. 
   - The higher the number the faster the game. 
+- Instances of `draw_text()` is where you would be able to change the font.  
 ``` 
 draw_text(screen, "How long can you survive until you are...", 20, WIDTH / 2, HEIGHT / 1.65)
 ``` 
-- the first number `20` in this case is the font size. 
- - Adjust it to how you see fit!
+- the first number, `20` ,in this case is the font size. 
+ - Adjust it to how you see fit!(if needed)
  
 
