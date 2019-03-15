@@ -8,10 +8,11 @@ import time
 from os import path
 import sys
 
+
 WIDTH = 500
 HEIGHT = 500
 FPS = 50
-
+HS_FILE = 'highscore.txt'
 
 img_dir = path.join(path.dirname(__file__), 'img')
 
@@ -39,6 +40,13 @@ walk_sound.set_volume(0.08)
 
 
 font_name = pygame.font.match_font('arial')
+
+hs_dir = path.dirname(__file__)
+try:
+    with open(path.join(hs_dir, HS_FILE), 'r') as f:
+        highscore = int(f.read())
+except:
+    highscore = 0
 
 
 def draw_text(surface, text, size, x, y):
@@ -262,6 +270,8 @@ def show_game_over_screen():
               20, WIDTH / 2, HEIGHT / 1.65)
     draw_text(screen, " FOREVER DEAD?!",
               28, WIDTH / 2, HEIGHT / 1.5)
+    draw_text(screen, "Current Highscore: {}".format(highscore),
+              18, WIDTH / 2, 10)
     draw_text(screen, "Press the space bar to begin your journey to impending doom", 18,
               WIDTH / 2, HEIGHT * 3 / 4)
     pygame.display.flip()
@@ -276,7 +286,7 @@ def show_game_over_screen():
                 if event.key == pygame.K_SPACE:
                     waiting = False
 
-            # load all graphics
+        # load all graphics
 background = pygame.image.load(
     path.join(img_dir, 'grassy_plains.jpg')).convert()
 background_rect = background.get_rect()
@@ -316,6 +326,10 @@ while running:
 
     if player.rect.right >= abs(499) and player.rect.right <= abs(500):
         score += 1
+        if score > highscore:
+            highscore = score
+            with open(path.join(hs_dir, HS_FILE), 'w') as f:
+                f.write(str(score))
         for i in range(1):
             rock = Rocks()
             all_sprites.add(rock)
@@ -348,7 +362,7 @@ while running:
     screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
-    draw_text(screen, str(score), 18, WIDTH / 2, 10)
+    draw_text(screen, 'Score: {}'.format(str(score)), 18, WIDTH / 2, 10)
     # after drawing everything flip display
     pygame.display.flip()
 
