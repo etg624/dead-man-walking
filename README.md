@@ -1,2 +1,3 @@
-python3 -m pip install -r requirements.txt
+# Dead Man Walking
+
 ![Alt Text](README.gif)
