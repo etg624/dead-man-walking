@@ -258,7 +258,7 @@ class Bullet(pygame.sprite.Sprite):
 
 def show_game_over_screen():
     screen.blit(background, background_rect)
-    draw_text(screen, "DEAD MAN WALKING",50, WIDTH / 2, HEIGHT / 4)
+    draw_text(screen, "DEAD MAN WALKING",45, WIDTH / 2, HEIGHT / 4)
     # todo add instructions
     draw_text(screen, "You wake up dead, (yes I know) only to find yourself lost",
               15, WIDTH / 2, HEIGHT / 2)
