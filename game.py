@@ -258,20 +258,20 @@ class Bullet(pygame.sprite.Sprite):
 
 def show_game_over_screen():
     screen.blit(background, background_rect)
-    draw_text(screen, "DEAD MAN WALKING",45, WIDTH / 2, HEIGHT / 4)
+    draw_text(screen, "DEAD MAN WALKING", 45, WIDTH / 2, HEIGHT / 4)
     # todo add instructions
     draw_text(screen, "You wake up dead, (yes I know) only to find yourself lost",
-              15, WIDTH / 2, HEIGHT / 2)
+              20, WIDTH / 2, HEIGHT / 2)
     draw_text(screen, "on a never ending trail.",
-              15, WIDTH / 2, HEIGHT / 1.9)
+              20, WIDTH / 2, HEIGHT / 1.9)
     draw_text(screen, "Only to realize more and more rocks falling at your head as you move along.",
-              15, WIDTH / 2, HEIGHT / 1.8)
+              20, WIDTH / 2, HEIGHT / 1.8)
     draw_text(screen, "How long can you survive until you are...",
-              15, WIDTH / 2, HEIGHT / 1.65)
+              20, WIDTH / 2, HEIGHT / 1.65)
     draw_text(screen, " FOREVER DEAD?!",
-              22, WIDTH / 2, HEIGHT / 1.5)
+              28, WIDTH / 2, HEIGHT / 1.5)
     draw_text(screen, "Current Highscore: {}".format(highscore),
-              15, WIDTH / 2, 10)
+              18, WIDTH / 2, 10)
     draw_text(screen, "Press the space bar to begin your journey to impending doom", 18,
               WIDTH / 2, HEIGHT * 3 / 4)
     pygame.display.flip()
@@ -285,6 +285,7 @@ def show_game_over_screen():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     waiting = False
+
 
         # load all graphics
 background = pygame.image.load(
