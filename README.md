@@ -1,4 +1,4 @@
-# Dead Man Walking ☠︎ 🚶‍♂️
+# Dead Man Walking  ☠︎ 🚶‍♂️
 
 You wake up dead, in a deserted land. Only to find yourself trapped on a never ending path with. You soon realize the further you walk the more rocks come barreling from the sky ready to send you to you're orginally intended fate. How long can you walk the path before you meet your **impending doom?!**
 
@@ -8,7 +8,7 @@ You wake up dead, in a deserted land. Only to find yourself trapped on a never e
 - I built this game with no prior Python experience to show case my abilty to learn new thing quickly.
 - Also built with the help and guidence of **Chris Angelico** aka **Rosuav**.
 
-### Locally Playing the game.
+### Locally playing & installing the game.
 
 Unfortunately PYGAME isn't very good at distrbution. Even creating an exe file is a big headache. 
 
@@ -25,6 +25,6 @@ Unfortunately PYGAME isn't very good at distrbution. Even creating an exe file i
 draw_text(screen, "How long can you survive until you are...", 20, WIDTH / 2, HEIGHT / 1.65)
 ``` 
 - the first number, `20` ,in this case is the font size. 
- - Adjust it to how you see fit!(if needed)
+  - Adjust it to how you see fit!(if needed)
  
 
