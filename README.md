@@ -5,7 +5,7 @@ You wake up dead, in a deserted land. Only to find yourself trapped on a never e
 ![Alt Text](README.gif)
 
 ## Built in a week with Python3.7 and PYGAME 
-- I built this game with no prior Python experience to show case my abilty to learn new things quickly.
+- I built this game with no prior Python experience to showcase my abilty to learn new things quickly.
 - Also built with the help and guidence of the great and super cool **Chris Angelico** aka **Rosuav**.
 
 ### Locally playing & installing the game.
